@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<style>
+	#top{
+		height:300px;
+		background-image:url('first.png')
+	}
+	#tit{
+		margin-top:70px;
+		margin-left:175px;
+	}
+	#signincon{
+		width:200px;
+		margin-left:600px;
+		margin-top:70px;
+	}
+	#add{
+		margin-left:50px;
+		margin-top:10px;
+	}
+	
+</style>
+<script src="jquery.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#login").click(function(){
+			$.post("signin.php?seed="+Math.random(),{
+				user:$("#login_username").val(),
+				pwd:$("#login_password").val()
+			},function(data){
+				if($.trim(data)=="admin")
+				{
+					window.location.href = "http://localhost/test/miniproject/frontend/admin.html";
+					sessionVariable();
+					
+				}
+				else if($.trim(data)=="staff")
+				{
+					window.location.href="http://localhost/test/miniproject/frontend/staff.html";
+					sessionVariable();
+				}
+				else
+				{
+					$("#login_result").text("Sorry.Wrong Username or Password");
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+<div id="main">
+	<div id="top">
+		<img src="banner1.png" id="tit"/>
+	</div>
+	<div id="signin">
+		<div id="signincon">
+			<form>
+				Username<br/>
+				<input type="text" id="login_username"/><br>
+				Password<br/>
+				<input type="password" id="login_password">
+				<label id="error"></label>
+				<button type="button" class="btn btn-primary" id="login">Login</button>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

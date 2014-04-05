@@ -1,0 +1,25 @@
+<form>
+	<label>Event Name</label>
+	<input type="text" id="pename"/>
+	<label>Title of the paper</label>
+	<input type="text" id="ptitle"/>	
+	<label>Date</label>
+	<input type="date" id="pdate"/>
+	<label>Place</label>
+	<input type="text" id="pplace"/><br/><br/>
+	<label>Type</label>&nbsp;&nbsp;
+	<input type="radio" name="type" id="ptype1"/>&nbsp;National</input>&nbsp;&nbsp;<input type="radio" name="type" id="ptype2"/>&nbsp;International</input><br/><br/>
+	<label>Category</label>&nbsp;&nbsp;&nbsp;
+	<select id="pcategory">
+		<option>Seminar</option>
+		<option>Workshop</option>
+		<option>Guest Lecture</option>
+		<option>FDP</option>
+		<option>Conference</option>
+		<option>Others</option>
+	</select>
+	<br/><br/>
+	<label>Academic Year</label>&nbsp;&nbsp;
+	<input type="text" class="smalltext" value="2013" style="width:40px" id="pstartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="pendyear"/><br/><br/>
+	<button type="button" class="btn btn-primary btn-lg" id="presentedadd" class="add">Add</button>
+</form>

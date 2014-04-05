@@ -1,0 +1,33 @@
+
+body{
+	margin:0px;
+	padding:0px;
+}
+#main{
+	width:1000px;
+	margin:0px auto;
+}
+header{
+	color:red;
+	background-color:blue;
+	height:150px;
+	padding-bottom:10px;
+}
+#login{
+	position:relative;
+	right:-870px;
+	margin-top:40px;
+}
+#content{
+	width:600px;
+	margin:0px auto;
+	margin-top:20px;
+}
+[type=text],[type=date]{
+	border:solid 1px 1E90FF;
+	width:100%;
+}
+button{
+	margin-left:250px;
+}
+

@@ -1,0 +1,59 @@
+create table department(
+	deptno int,
+	deptname varchar(30),
+	primary key(deptno)
+)
+
+create table employee(
+	empno int,
+	empname varchar(30),
+	username varchar(128),
+	password varchar(128),
+	designation varchar(30),
+	role varchar(30),
+	deptno int,
+	primary key(empno),
+	foreign key (deptno) references department(deptno),
+	unique(empname)
+)
+
+create table events(
+	eid int,
+	ename varchar(30),
+	caption varchar(128),
+	collection text(65535),
+	edate date,
+	academicyear varchar(20),
+	deptno int,
+	primary key(eid),
+	foreign key(deptno) references department(deptno)
+)
+
+create table activity_details(
+	aid int,
+	aname varchar(128),
+	adate date,
+	place varchar(30),
+	type varchar(30),
+	primary key(aid)
+)
+
+create table activities(
+	actid int,
+	username varchar(128),
+	academicyear varchar(20),
+	aid int,
+	foreign key(aid) references activity_details(aid)
+)
+
+create table journal(
+	jid int,
+	username varchar(128),	
+	title varchar(128),
+	jdate date,
+	academicyear varchar(20),
+	jname varchar(50),
+	type varchar(30),
+	impactfactor float(2),
+	primary key(jid)
+)
