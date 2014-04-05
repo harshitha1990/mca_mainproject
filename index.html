@@ -28,9 +28,10 @@
 	$(function(){
 		$("#login").click(function(){
 			$.post("signin.php?seed="+Math.random(),{
-				user:$("#login_username").val(),
-				pwd:$("#login_password").val()
+				username:$("#login_username").val(),
+				password:$("#login_password").val()
 			},function(data){
+				alert(data);
 				if($.trim(data)=="admin")
 				{
 					window.location.href = "http://localhost/test/miniproject/frontend/admin.html";
