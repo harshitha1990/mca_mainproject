@@ -30,6 +30,20 @@ class Database{
 			return $values;
 	}
 
+	public function query($str)
+	{
+		mysql_query($str,$this->con);
+		$x=mysql_affected_rows();
+		if($x>0)
+		{
+			return "Successful";
+		}
+		else
+		{
+			return "Failed";
+		}
+	}
+
 	public function __destruct(){
 		mysql_close($this->con);
 	}	

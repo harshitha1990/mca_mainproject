@@ -6,9 +6,6 @@
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="code.js"></script>
-<script>
-
-</script>
 </head>
 <body>
 <div id="main">
@@ -25,4 +22,23 @@
 		
 	</div>
 </body>
+<script>
+	$(function(){
+		alert("hi");
+		$("#attendedadd").click(function(){
+			alert("clicked");
+			$.post("attended_insert.php?seed="+Math.random(),{
+				aseventname:$("#aename").val(),
+				asdate:$("#adate").val(),
+				asplace:$("#aplace").val(),
+				astype:$("input[type='radio'][name='atype']:checked"),
+				ascategory:$("#acategory").val(),
+				astartyear:$("#astartyear").val(),
+				asendyear:$("#astartyear").val()
+			},function(data){
+				alert(data);
+			});
+		});
+	});
+</script>
 </html>

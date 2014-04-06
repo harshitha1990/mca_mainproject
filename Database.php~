@@ -10,9 +10,9 @@ class Database{
 	public function __construct()
 	{
 		$this->host="127.0.0.1";
-		$this->dbusername="''";
+		$this->dbusername="root";
 		$this->dbpassword="";
-		$this->dbname="test";
+		$this->dbname="mainproject";
 		$this->con=mysql_connect($this->host,$this->dbusername,$this->dbpassword,$db->dbname);
 		if(!$this->con)
 		{
@@ -28,6 +28,20 @@ class Database{
 			return "avail";
 		else
 			return $values;
+	}
+
+	public function query($str)
+	{
+		mysql_query($str,$this->con);
+		$x=mysql_affected_rows();
+		if($x>0)
+		{
+			return "Successful";
+		}
+		else
+		{
+			return "Failed";
+		}
 	}
 
 	public function __destruct(){

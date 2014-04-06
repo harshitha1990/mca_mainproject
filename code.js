@@ -16,5 +16,7 @@ $(function(){
 	$("#journal").click(function(){
 		$("#content").load("journal.html");
 	});
+
+	
 });
 

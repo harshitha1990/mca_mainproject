@@ -16,5 +16,20 @@ $(function(){
 	$("#journal").click(function(){
 		$("#content").load("journal.html");
 	});
+
+	$("#attendedadd").click(function(){
+			alert("clicked");
+			/*$.post("attended_insert.php?seed="+Math.random(),{
+				aseventname:$("#aename").val(),
+				asdate:$("#adate").val(),
+				asplace:$("#aplace").val(),
+				astype:$("input[type='radio'][name='atype']:checked"),
+				ascategory:$("#acategory").val(),
+				astartyear:$("#astartyear").val(),
+				asendyear:$("#astartyear").val()
+			},function(data){
+				alert(data);
+			});*/
+	});
 });
 

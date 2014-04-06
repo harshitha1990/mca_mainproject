@@ -1,0 +1,2 @@
+astype:$("input[type='radio'][name='atype']:checked"),
+				ascategory:$("#acategory").val(),
