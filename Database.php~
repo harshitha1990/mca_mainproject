@@ -10,9 +10,9 @@ class Database{
 	public function __construct()
 	{
 		$this->host="127.0.0.1";
-		$this->dbusername="root";
+		$this->dbusername="''";
 		$this->dbpassword="";
-		$this->dbname="mainproject";
+		$this->dbname="test";
 		$this->con=mysql_connect($this->host,$this->dbusername,$this->dbpassword,$db->dbname);
 		if(!$this->con)
 		{

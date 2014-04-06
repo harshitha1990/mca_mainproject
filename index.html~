@@ -26,11 +26,14 @@
 <script src="jquery.js"></script>
 <script type="text/javascript">
 	$(function(){
+		alert("hi");
 		$("#login").click(function(){
+			alert("clicked");
 			$.post("signin.php?seed="+Math.random(),{
 				username:$("#login_username").val(),
 				password:$("#login_password").val()
 			},function(data){
+				alert(data);
 				if($.trim(data)=="admin")
 				{
 					window.location.href = "http://localhost/test/hod.html";
