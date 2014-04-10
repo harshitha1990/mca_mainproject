@@ -80,10 +80,17 @@
 		{
 			 return $this->acategory;
 		}*/
-		public function createAttendedActivity($str)
+		public function createActivity($str)
 		{
 			$db=new Database();
 			$result=$db->query($str);
+			echo $result;
+		}
+
+		public function printActivities($str)
+		{
+			$db=new Database();
+			$result=$db->selectQuery($str);
 			echo $result;
 		}
 	}

@@ -45,9 +45,8 @@
 				}
 				else
 				{
-					/*alert(data);
-					$("#login_result").text("Sorry.Wrong Username or Password");*/
-					$("#login_result").text(data);
+					alert(data);
+					$("#login_result").text("Sorry.Wrong Username or Password");
 				}
 			});
 		});

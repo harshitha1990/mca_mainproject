@@ -24,10 +24,9 @@
 </form>
 <script>
 	$(function(){
-		alert("hi");
 		$("#attendedadd").click(function(){
-			alert("clicked");
-			$.post("attended_insert.php?seed="+Math.random(),{
+			$.post("insert.php?seed="+Math.random(),{
+				method:'attended',
 				aseventname:$("#aename").val(),
 				asdate:$("#adate").val(),
 				asplace:$("#aplace").val(),

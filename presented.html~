@@ -29,7 +29,7 @@
 			$.post("insert.php?seed="+Math.random(),{
 				method:'presented',
 				pseventname:$("#pename").val(),
-				pstitle:$("#ptitle").val(),
+				ptitle:$("#ptitle").val(),
 				psdate:$("#pdate").val(),
 				psplace:$("#pplace").val(),
 				pstype:$("input[name='ptype']:checked").val(),

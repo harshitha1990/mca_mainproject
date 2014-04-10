@@ -1,5 +1,6 @@
 <?php
-include "Database.php";
+	session_start();
+	include_once "Database.php";
 
 	class User{
 		private $username;
@@ -78,6 +79,7 @@ include "Database.php";
 			
 			if($response!="avail") {
 				$_SESSION['username']=$this->username;
+				
 			} else {
 				echo "Username or Password is wrong";
 			}
