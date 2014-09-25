@@ -1,0 +1,575 @@
+<style>
+	#operations{
+		padding-left:70px;
+	}
+</style>
+<div id="content"> 
+	<div id="operations">
+		<select id="principal_filter">
+			<option>Filter</option>
+			<option>Attended</option>
+			<option>Presented</option>
+			<option>Journal</option>
+		</select>
+		<select id="principal_category">
+			<option>Category</option>
+			<option>All</option>
+			<option>Seminar</option>
+			<option>Workshop</option>
+		</select>
+		<label>From</label>
+		<input type="date" id="durationfrom" class="principal_text principal_date" style="width:200px;" placeholder="YYYY-MM-DD" />
+		<label>To</label>
+		<input type="date" id="durationto" class="principal_text principal_date" style="width:200px;" placeholder="YYYY-MM-DD"/><br/><br/>
+		<button type="button" id="staffreportop" style="margin-left:250px">View Report</button>
+	</div>
+	<!---------------------------------------------------------------------------------------->
+	<div id="edit-attended">
+		<form>		
+			<label>Event Name</label>
+			<input type="text" id="aename"/>		
+			<label>From Date</label>
+			<input type="date" id="adate" name="dates" class="principal_date" />
+			<label>To Date</label>
+			<input type="date" id="tdate" name="dates" class="principal_date"  />
+			<label>Place</label>
+			<input type="text" id="aplace"/><br/><br/>
+			<label>Type</label>&nbsp;&nbsp;
+			<input type="radio" name="atype" id="atype1" value="National"/>&nbsp;National</input>&nbsp;&nbsp;<input type="radio" name="atype" id="atype2" value="International"/>&nbsp;International</input><br/><br/>
+			<label>Category</label>&nbsp;&nbsp;&nbsp;
+			<select id="acategory">
+				<option>Seminar</option>
+				<option>Workshop</option>
+				<option>Guest Lecture</option>
+				<option>FDP</option>
+				<option>Conference</option>
+				<option>Others</option>
+			</select>
+			<br/><br/>
+			<label>Academic Year</label>&nbsp;&nbsp;
+			<input type="text" class="smalltext" value="2013" style="width:40px" id="astartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="aendyear"/><br/><br/>
+			<button type="button" class="btn btn-primary btn-lg" id="attendededit" class="edit">Save Changes</button>
+		</form>
+	</div>
+	<!----------------------------------------------------------------------------------------------------->
+	<div id="edit-presented">
+		<form>
+			<label>Event Name</label>
+			<input type="text" id="pename"/>
+			<label>Title of the paper</label>
+			<input type="text" id="ptitle"/>	
+			<label>From Date</label>
+			<input type="date" id="pdate" class="principal_date"/>
+			<label>To Date</label>
+			<input type="date" id="ptdate" class="principal_date"/>
+			<label>Place</label>
+			<input type="text" id="pplace"/><br/><br/>
+			<label>Type</label>&nbsp;&nbsp;
+			<input type="radio" name="ptype" id="ptype1" value="National" />&nbsp;National</input>&nbsp;&nbsp;<input type="radio" name="ptype" id="ptype2" value="International" />&nbsp;International</input><br/><br/>
+			<label>Category</label>&nbsp;&nbsp;&nbsp;
+			<select id="pcategory">
+				<option>Seminar</option>
+				<option>Workshop</option>
+				<option>Guest Lecture</option>
+				<option>FDP</option>
+				<option>Conference</option>
+				<option>Others</option>
+			</select>
+			<br/><br/>
+			<label>Academic Year</label>&nbsp;&nbsp;
+			<input type="text" class="smalltext" value="2013" style="width:40px" id="pstartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="pendyear"/><br/><br/>
+			<button type="button" class="btn btn-primary btn-lg" id="presentededit" class="add">Edit</button>
+		</form>
+	</div>
+	<!--------------------------------------------------------------------------------------------------------------->
+	<div id="edit-journal">
+		<form>		
+			<label>Title of the paper</label>
+			<input type="text" id="jtitle"/>
+			<label>Journal</label>
+			<input type="text" id="jname"/>
+			<label>Date</label>
+			<input type="date" id="jdate"/><br/><br/>
+			<label>Impact Factor</label>&nbsp;&nbsp;
+			<select id="impactfactor">
+				<option>0</option>
+				<option>0.5</option>
+				<option>1</option>
+				<option>1.5</option>
+				<option>2</option>
+				<option>2.5</option>
+				<option>3</option>
+				<option>3.5</option>
+				<option>4</option>
+				<option>4.5</option>
+				<option>5</option>
+			</select>
+			<br/><br/>
+			<label>Academic Year</label>&nbsp;&nbsp;
+			<input type="text" class="smalltext" value="2013" style="width:40px" id="jstartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="jendyear"/><br/><br/>
+			<button type="button" class="btn btn-primary btn-lg" id="journaledit" class="add">Edit</button>
+		</form>		
+	</div>
+		<div id="reportContainer">
+	
+		</div>
+</div>
+<script>
+
+$(function(){
+	var fromdate;
+	var todate;
+	var eid;
+		  $( "#dialog-form" ).dialog({
+			autoOpen: false,
+			height: 300,
+			width: 350,
+			modal: true
+		});
+	$(".principal_date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			maxDate:0
+		});
+	$( ".principal_date" ).datepicker( "option", "dateFormat","yy-mm-dd");
+	$("#principal_filter").change(function(){
+		if($("#principal_filter").val()=='Journal')
+		{
+			$("#principal_category").val("No Category");
+			$("#principal_category").attr('disabled', 'disabled');
+		}
+		else
+		{
+			$("#principal_category").val("Category");
+			$('#principal_category').removeAttr('disabled');
+		}
+	});
+	function deleteElement(elementId) {
+		$.post("deleterecord.php?seed="+Math.random(),{
+			id:elementId
+			},
+			function(data){
+				alert(data);
+				operations();
+			}
+		);
+	}
+	function operations(){
+		var fromdate=new Date($("#durationfrom").val());
+		var todate=new Date($("#durationto").val());
+		if(todate<fromdate)
+		{
+			alert("To date should be greater than from date");
+		}
+		else
+		{
+		if($("#principal_filter").val()=='Journal')
+			{
+				$.post("reports_staff_filters.php?seed="+Math.random(),{
+				method:'report',				
+				from:$("#durationfrom").val(),
+				to:$("#durationto").val(),
+				filter:$("#principal_filter").val()
+				},function(data){
+					$("#reportContainer").html(data);
+					$(".deletebutton").click(function(){
+						var r=confirm("Are you sure?Do you want to delete?");
+						if(r==true)
+						{
+							var id=$(this).attr("id");
+							deleteElement(id);
+							/*$(this).parent().slideUp();*/
+						}
+					});
+					$(".editbutton").click(function(){
+						eid=this.id;
+						$.getJSON("editattended.php?seed="+Math.random(),{
+							aid:eid
+						},
+						function(data){
+							$("#jtitle").val(data[0]['title']);
+							$("#jdate").val(data[0]['jdate']);
+							$("#jname").val(data[0]['jname']);
+							$("#impactfactor").val(data[0]['impactfactor']);
+						        $("#edit-journal" ).dialog("open");
+						});
+
+						$("#journaledit").click(function(data){
+
+								$.post("savechanges.php?seed="+Math.random(),{	
+									method:"journal",
+									jname:$("#jname").val(),
+									jdate:$("#jdate").val(),
+									jtitle:$("#jtitle").val(),
+									impactfactor:$("#impactfactor").val(),
+									aid:eid
+								},function(data)
+								{	
+									/*alert(data);*/
+									$("#edit-journal").dialog("close");
+									operations();
+								});
+							});	
+					});
+				});
+			}
+			else if($("#principal_category").val()=="All")
+			{
+				var fil=0;
+				if ($("#principal_filter").val()=="Attended")
+					fil=1;
+				else
+					fil=2;	
+	
+				$.post("reports_staff_filters.php?seed="+Math.random(),{
+				method:'report',				
+				category:"all",
+				from:$("#durationfrom").val(),
+				to:$("#durationto").val(),
+				filter:fil
+				},function(data){
+					$("#reportContainer").html(data);
+					$(".deletebutton").click(function(){
+						var r=confirm("Are you sure?Do you want to delete?");
+						if(r==true)
+						{
+							var id=$(this).attr("id");
+							deleteElement(id);
+							/*$(this).parent().slideUp();*/
+						}
+					});
+					$(".editbutton").click(function(){
+						 if(fil==1)
+						{
+							eid=this.id;
+							$.getJSON("editattended.php?seed="+Math.random(),{
+								aid:eid
+							},
+							function(data){
+								$("#aename").val(data[0]['ename']);
+								$("#adate").val(data[0]['adate']);
+								$("#tdate").val(data[0]['tdate']);
+								$("#aplace").val(data[0]['place']);
+								$("input:radio[name=dates]").filter("[value="+data[0]['type']+"]").prop("checked",true);
+								$("#acategory").val(data[0]['category']);
+
+								$( "#edit-attended" ).dialog( "open" );
+							});
+											
+							$("#aplace").focus(function(){
+								if($("#adate").val()=="")
+								{
+									alert("Enter From date");
+								}
+								if(($("#tdate").val()=="") && ($("#adate").val()!=""))
+								{
+									$("#tdate").val($("#adate").val());
+								}
+								fromdate=new Date($("#adate").val());
+								todate=new Date($("#tdate").val());
+								if(todate<fromdate)
+								{
+									alert("To date should be greater than from date");
+								}
+							});					
+
+							$("#attendededit").click(function(data){
+								fromdate=new Date($("#adate").val());
+								todate=new Date($("#tdate").val());
+								var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+								$.post("savechanges.php?seed="+Math.random(),{	
+									method:"attended",
+									ename:$("#aename").val(),
+									adate:$("#adate").val(),
+									tdate:$("#tdate").val(),
+									place:$("#aplace").val(),
+									type:$("input[name='atype']:checked").val(),
+									category:$("#acategory").val(),
+									startyear:$("#astartyear").val(),
+									endyear:$("#aendyear").val(),
+									days:days+1,
+									aid:eid
+								},function(data)
+								{	
+									/*alert(data);*/
+									$("#edit-attended" ).dialog( "close" );
+									operations();
+								});
+							});	
+						}
+						else
+						{
+							eid=this.id;
+							$.getJSON("editattended.php?seed="+Math.random(),{
+								aid:eid},
+							function(data){
+								$("#pename").val(data[0]['ename']);
+								$("#pdate").val(data[0]['adate']);
+								$("#ptdate").val(data[0]['tdate']);
+								$("#pplace").val(data[0]['place']);
+								/*$("input:radio[name=ptype]").filter("[value=+"data[0]['type']+"]").prop("checked",true);*/						
+								$("input:radio[name=ptype]").filter("[value="+data[0]['type']+"]").prop("checked",true);
+								$("#pcategory").val(data[0]['category']);
+								$("#ptitle").val(data[0]['title']);
+
+								$( "#edit-presented" ).dialog( "open" );
+							});
+						
+							$("#pplace").focus(function(){
+								if($("#pdate").val()=="")
+								{
+									alert("Enter From date");
+								}
+								if(($("#ptdate").val()=="") && ($("#pdate").val()!=""))
+								{
+									$("#ptdate").val($("#pdate").val());
+								}
+								fromdate=new Date($("#pdate").val());
+								todate=new Date($("#ptdate").val());
+								if(todate<fromdate)
+								{
+									alert("To date should be greater than from date");
+								}
+							});					
+
+							$("#presentededit").click(function(data){
+								fromdate=new Date($("#pdate").val());
+								todate=new Date($("#ptdate").val());
+								var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+								$.post("savechanges.php?seed="+Math.random(),{	
+									method:"presented",
+									ename:$("#pename").val(),
+									adate:$("#pdate").val(),
+									tdate:$("#ptdate").val(),
+									place:$("#pplace").val(),
+									type:$("input[name='ptype']:checked").val(),
+									category:$("#pcategory").val(),
+									title:$("#ptitle").val(),
+									startyear:$("#pstartyear").val(),
+									endyear:$("#pendyear").val(),
+									days:days+1,
+									aid:eid
+								},function(data)
+								{	
+									/*alert(data);*/
+									$("#edit-presented" ).dialog( "close" );
+									operations();
+								});
+							});	
+						}
+					});
+				});
+			}
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+			else
+			{
+				var fil=0;
+				if ($("#principal_filter").val()=="Attended")
+					fil=1;
+				else
+					fil=2;	
+				$.post("reports_staff_filters.php?seed="+Math.random(),{
+				method:'report',				
+				category:$("#principal_category").val(),
+				from:$("#durationfrom").val(),
+				to:$("#durationto").val(),
+				filter:fil
+				},function(data){
+					$("#reportContainer").html(data);
+					$(".deletebutton").click(function(){
+						var r=confirm("Are you sure?Do you want to delete?");
+						if (r==true)
+						{
+							var id=$(this).attr("id");
+							deleteElement(id);
+							/*$(this).parent().slideUp();*/
+						}
+					});
+					$(".editbutton").click(function(){
+						if(fil==1)
+						{
+							eid=this.id;
+							$.getJSON("editattended.php?seed="+Math.random(),{
+								aid:eid
+						},
+							function(data){
+								$("#aename").val(data[0]['ename']);
+								$("#adate").val(data[0]['adate']);
+								$("#tdate").val(data[0]['tdate']);
+								$("#aplace").val(data[0]['place']);
+								$("input:radio[name=atype]").filter("[value="+data[0]['type']+"]").prop("checked",true);
+								$("#acategory").val(data[0]['category']);
+
+								$( "#edit-attended" ).dialog( "open" );
+							});
+		
+							$("#aplace").focus(function(){
+								if($("#adate").val()=="")
+								{
+									alert("Enter From date");
+								}
+								if(($("#tdate").val()=="") && ($("#adate").val()!=""))
+								{
+									$("#tdate").val($("#adate").val());
+								}
+								fromdate=new Date($("#adate").val());
+								todate=new Date($("#tdate").val());
+								if(todate<fromdate)
+								{
+									alert("To date should be greater than from date");
+								}
+							});					
+
+							$("#attendededit").click(function(data){
+								fromdate=new Date($("#adate").val());
+								todate=new Date($("#tdate").val());
+								var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+								$.post("savechanges.php?seed="+Math.random(),{	
+									method:"attended",
+									ename:$("#aename").val(),
+									adate:$("#adate").val(),
+									tdate:$("#tdate").val(),
+									place:$("#aplace").val(),
+									type:$("input[name='atype']:checked").val(),
+									category:$("#acategory").val(),
+									startyear:$("#astartyear").val(),
+									endyear:$("#aendyear").val(),
+									days:days+1,
+									aid:eid
+								},function(data)
+								{	
+									/*alert(data);*/
+									$("#edit-attended" ).dialog( "close" );
+									operations();
+								});
+							});
+						}/*if*/
+						else
+						{
+							eid=this.id;
+							$.getJSON("editattended.php?seed="+Math.random(),{
+								aid:eid
+							},
+							function(data){
+								$("#pename").val(data[0]['ename']);
+								$("#pdate").val(data[0]['adate']);
+								$("#ptdate").val(data[0]['tdate']);
+								$("#pplace").val(data[0]['place']);
+								$("input:radio[name=ptype]").filter("[value="+data[0]['type']+"]").prop("checked",true);
+								$("#pcategory").val(data[0]['category']);
+								$("#ptitle").val(data[0]['title']);
+								$( "#edit-presented" ).dialog( "open" );
+							});
+		
+							$("#pplace").focus(function(){
+								if($("#pdate").val()=="")
+								{
+									alert("Enter From date");
+								}
+								if(($("#ptdate").val()=="") && ($("#pdate").val()!=""))
+								{
+									$("#ptdate").val($("#pdate").val());
+								}
+								fromdate=new Date($("#pdate").val());
+								todate=new Date($("#ptdate").val());
+								if(todate<fromdate)
+								{
+									alert("To date should be greater than from date");
+								}
+							});					
+
+							$("#presentededit").click(function(data){
+								fromdate=new Date($("#pdate").val());
+								todate=new Date($("#ptdate").val());
+								var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+								$.post("savechanges.php?seed="+Math.random(),{	
+									method:"presented",
+									ename:$("#pename").val(),
+									adate:$("#pdate").val(),
+									tdate:$("#ptdate").val(),
+									place:$("#pplace").val(),
+									type:$("input[name='ptype']:checked").val(),
+									title:$("#ptitle").val(),
+									category:$("#pcategory").val(),
+									startyear:$("#pstartyear").val(),
+									endyear:$("#pendyear").val(),
+									days:days+1,
+									aid:eid
+								},function(data)
+								{	
+									/*alert(data);*/
+									$("#edit-presented" ).dialog( "close" );
+									operations();
+								});
+							});
+						}
+						
+					});
+									
+				});
+			}
+		}
+	}
+	$("#staffreportop").click(function(){
+		if(($("#principal_filter").val()=="Filter") && ($("#principal_category").val()=="Category") && ($("#durationfrom").val()=="") && ($("#durationto").val()==""))
+		{
+			alert("All fields are mandatory");
+		}
+		else
+		{
+			if(($("#principal_filter").val()=="Filter") || ($("#principal_category").val()=="Category") || ($("#durationfrom").val()=="") || ($("#durationto").val()==""))
+			{
+				var error_msg="Please Enter";
+				if($("#principal_filter").val()=="Filter")
+				{
+					error_msg=error_msg+" Category";
+				}
+				if($("#principal_category").val()=="Category")
+				{	
+					if($("#principal_filter").val()!="Journal")
+					{
+						error_msg=error_msg+" Category";
+					}
+				}
+				
+				if($("#durationfrom").val()=="")
+				{
+					error_msg=error_msg+" Fromdate";
+
+				}
+				if($("#durationto").val()=="")
+				{
+					error_msg=error_msg+" Todate";
+
+				}
+					alert(error_msg);
+
+			}
+			else
+			{
+				operations();			
+			}
+		}
+		});
+
+		 $( "#edit-attended" ).dialog({
+			autoOpen: false,
+			height: 500,
+			width: 420,
+			modal: true,
+		});
+		$( "#edit-presented" ).dialog({
+			autoOpen: false,
+			height: 550,
+			width: 420,
+			modal: true,
+		});
+		$( "#edit-journal" ).dialog({
+			autoOpen: false,
+			height: 550,
+			width: 420,
+			modal: true,
+		});
+
+});
+</script>

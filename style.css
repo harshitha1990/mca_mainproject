@@ -19,7 +19,7 @@ header{
 	margin-top:40px;
 }
 #content{
-	width:600px;
+	width:850px;
 	margin:0px auto;
 	margin-top:20px;
 }
@@ -27,7 +27,51 @@ header{
 	border:solid 1px 1E90FF;
 	width:100%;
 }
-button{
-	margin-left:250px;
+/*button{
+	margin-left:350px;
+}*/
+.bg{
+	background-color:red;
+}
+
+.reports tr:nth-child(even){
+	/*background-color:rgba(30,144,255,0.2);*/
+	background-color:white;
+	margin:0px;
+	padding:0px;
+	
+}
+
+.reports tr th,td{
+	text-align:left;
+}
+
+.reports table{
+	border:0px;
+	width:100%;
+}
+
+.reports{
+	padding-top:20px;
+}
+
+#settings_submenu{
+	margin:0px;
+	position:absolute;
+	top:5px;
+	right:0px;
+	padding:10px;
+	background-color:rgba(0,0,0,0.5);
+	font-weight:bold;
+	color:white;
+	border-radius:10px 0px 0px 10px;
+	cursor:pointer;
+}
+
+
+
+.settings{
+	margin-right:20px;
+	padding-top:30px;	
 }
 

@@ -1,0 +1,9 @@
+<?php
+	include_once "Database.php";
+	$db=new Database();
+	$str="select username from mainproject.employee where deptno=(select deptno from mainproject.employee where username='harshi') and role='staff'";
+	echo $str;
+	$res=$db->getdetails_reports("Staff",$str);
+	echo $res;
+	
+?>

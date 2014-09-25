@@ -74,13 +74,14 @@
 		{
 			$db=new Database();
 			$response=$db->selectQuery("select role from mainproject.employee where username='".$this->username."' and password='".$this->password."'");
-			echo $response[0];
+
 			
 			if($response!="avail") {
 				$_SESSION['username']=$this->username;
+				echo $response;
 				
 			} else {
-				echo "Username or Password is wrong";
+				echo "Username and Password are wrong";
 			}
 		}
 		

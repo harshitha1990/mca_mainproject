@@ -3,12 +3,14 @@
 	<input type="text" id="pename"/>
 	<label>Title of the paper</label>
 	<input type="text" id="ptitle"/>	
-	<label>Date</label>
-	<input type="date" id="pdate"/>
+	<label>From Date</label>
+	<input type="date" id="pdate" class="datejs"/>
+	<label>To Date</label>
+	<input type="date" id="ptdate" class="datejs"/>
 	<label>Place</label>
 	<input type="text" id="pplace"/><br/><br/>
 	<label>Type</label>&nbsp;&nbsp;
-	<input type="radio" name="type" id="ptype1"/>&nbsp;National</input>&nbsp;&nbsp;<input type="radio" name="ptype" id="ptype2"/>&nbsp;International</input><br/><br/>
+	<input type="radio" name="ptype" id="ptype1" value="National" />&nbsp;National</input>&nbsp;&nbsp;<input type="radio" name="ptype" id="ptype2" value="International" />&nbsp;International</input><br/><br/>
 	<label>Category</label>&nbsp;&nbsp;&nbsp;
 	<select id="pcategory">
 		<option>Seminar</option>
@@ -25,20 +27,99 @@
 </form>
 <script>
 	$(function(){
+		var fromdate;
+		var todate;
+		$(".datejs" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			maxDate:0
+		});
+		$( ".datejs" ).datepicker( "option", "dateFormat","yy-mm-dd");
+		$("#pplace").focus(function(){
+			if($("#pdate").val()=="")
+			{
+				alert("Enter From date");
+			}
+			if(($("#ptdate").val()=="") && ($("#pdate").val()!=""))
+			{
+				$("#ptdate").val($("#pdate").val());
+			}
+			fromdate=new Date($("#pdate").val());
+			todate=new Date($("#ptdate").val());
+			if(todate<fromdate)
+			{
+				alert("To date should be greater than from date");
+			}
+		});
 		$("#presentedadd").click(function(){
+			if(($("#pename").val()=="")&&($("#ptitle").val()=="")&&($("#pdate").val()=="")&&($("#pplace").val()=="")&&($("input[name='ptype']").is(":checked")!=true)){
+		alert("All Fields are required");
+	}
+	else{
+		if(($("#pename").val()=="")||($("#ptitle").val()=="")||($("#pdate").val()=="")||($("#pplace").val()=="")||($("input[name='ptype']").is(":checked")!=true))
+		{
+			var error_msg="Please Enter ";
+			if($("#pename").val()=="")
+			{
+				error_msg=error_msg+" Event Name";
+
+			}
+			if($("#ptitle").val()=="")
+			{
+				error_msg=error_msg+" Title";
+
+			}
+			if($("#pdate").val()=="")
+			{
+				error_msg=error_msg+" Date";
+			}
+			if($("#pplace").val()=="")
+			{
+				error_msg=error_msg+" Place";
+			}
+			if($("input[name='ptype']").is(":checked")!=true)
+			{
+				error_msg=error_msg+" Type";
+			}
+			alert(error_msg);
+		}
+		else
+		{
+			if($("#ptdate").val()=="")
+			{
+				$("#ptdate").val($("#pdate").val());
+			}
+			
+			var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+
 			$.post("insert.php?seed="+Math.random(),{
 				method:'presented',
 				pseventname:$("#pename").val(),
-				ptitle:$("#ptitle").val(),
+				pstitle:$("#ptitle").val(),
 				psdate:$("#pdate").val(),
+				ptdate:$("#ptdate").val(),
 				psplace:$("#pplace").val(),
 				pstype:$("input[name='ptype']:checked").val(),
 				pscategory:$("#pcategory").val(),
 				pstartyear:$("#pstartyear").val(),
-				psendyear:$("#pendyear").val()
+				psendyear:$("#pendyear").val(),
+				days:days+1
 			},function(data){
 				alert(data);
+				$('input[type="text"]').each(function(){
+      					$(this).val("");  
+  				});
+				$('input[type="date"]').each(function(){
+      					$(this).val("");  
+  				});
+ 				$("input:radio").removeAttr("checked");
+				$("#pstartyear").val("2013");
+				$("#pendyear").val("2014");
+				$("#pcategory").val("Seminar");
 			});
-		});
-	});
+		}
+	}
+});
+});
+
 </script>

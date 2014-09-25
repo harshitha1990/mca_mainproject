@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="code.js"></script>
+<script>
+	$(function(){
+		$(".logout").click(function(){
+			window.location.href="http://localhost/test/index.html?seed="+Math.random();
+		});
+	});
+</script>
+</head>
+<body>
+<div class="logout" style="width:80px;background-color:black;color:white;position:absolute;right:0px;padding:10px;cursor:pointer"><b>Logout</b></div>
+<div id="main">
+	<header>
+		<img src="banner1.png"></img>
+	</header>
+	<!--<ul class="nav nav-tabs menu">
+	  <li id="signup_admin"><a href="#">Signup</a></li>
+	</ul>-->
+	<div id="content"> 
+		
+		
+	</div>
+	<script>
+		$(function(){
+			/*$("#signup_admin").click(function(){*/
+				$("#content").load("signup_form.php?seed="+Math.random());
+			/*});*/
+		});
+	</script>
+</body>
+
+</html>

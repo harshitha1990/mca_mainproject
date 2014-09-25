@@ -10,7 +10,7 @@
 	}
 	#tit{
 		margin-top:70px;
-		margin-left:175px;
+		margin-left:200px;
 	}
 	#signincon{
 		width:200px;
@@ -34,13 +34,23 @@
 
 				if($.trim(data)=="hod")
 				{
-					window.location.href = "http://localhost/test/hod.html?seed="+Math.random();
+					window.location.href = "http://localhost/test/hod.php?seed="+Math.random();
 					sessionVariable();
 					
 				}
 				else if($.trim(data)=="staff")
 				{
-					window.location.href="http://localhost/test/staff.html?seed="+Math.random();
+					window.location.href="http://localhost/test/staff.php?seed="+Math.random();
+					sessionVariable();
+				}
+				else if($.trim(data)=="principal")
+				{
+					window.location.href="http://localhost/test/principal.php?seed="+Math.random();
+					sessionVariable();
+				}
+				else if($.trim(data)=="admin")
+				{
+					window.location.href="http://localhost/test/admin.html?seed="+Math.random();
 					sessionVariable();
 				}
 				else
@@ -61,13 +71,15 @@
 	</div>
 	<div id="signin">
 		<div id="signincon">
-			<form>
+			<form style='width:250px;'>
 				Username<br/>
-				<input type="text" id="login_username"/><br>
+				<input type="text" id="login_username" style='width:100%;'/><br>
 				Password<br/>
-				<input type="password" id="login_password">
-				<label id="login_result"></label>
-				<button type="button" class="btn btn-primary" id="login">Login</button>
+				<input type="password" id="login_password" style='width:100%;'/><br/>
+				<label id="login_result">&nbsp;</label>
+				<br/>
+				<button type="button" class="btn btn-primary"  id="login" style='margin-left:80px;'>Login</button><br/><br/>
+				<a href="http://localhost/test/admin.html" style="margin-left:80px;">Not a User?</a>
 			</form>
 		</div>
 	</div>

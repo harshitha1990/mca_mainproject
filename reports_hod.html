@@ -1,0 +1,36 @@
+<ul class="nav nav-tabs menu">
+  <li id="hodreport"><a href="#">Hod</a></li>
+  <li id="staffreport"><a href="#">Staff</a></li>
+</ul>
+<br/>
+<div id="content_hod"> 
+		
+</div>
+<script>
+	function deleteElement(elementId) {
+		$.post("deleterecord.php?seed="+Math.random(),{
+			id:elementId
+			},
+			function(data){
+				alert(data);
+			}
+		);
+	}
+	$(function(){
+		$("#hodreport").click(function(){
+			$.post("hodreportfile.php?seed="+Math.random(),function(data){
+				$("#content_hod").html(data);
+				$(".deletebutton").click(function(){
+					var id=$(this).attr("id");
+					deleteElement(id);
+					$(this).parent().slideUp();
+				});
+			});
+		});
+		
+		$("#staffreport").click(function(){
+			$("#content_hod").load("staffdetailsreport.html");
+		});
+	});
+</script>
+

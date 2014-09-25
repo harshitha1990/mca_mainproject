@@ -17,19 +17,34 @@ $(function(){
 		$("#content").load("journal.html");
 	});
 
-	$("#attendedadd").click(function(){
-			alert("clicked");
-			/*$.post("attended_insert.php?seed="+Math.random(),{
-				aseventname:$("#aename").val(),
-				asdate:$("#adate").val(),
-				asplace:$("#aplace").val(),
-				astype:$("input[type='radio'][name='atype']:checked"),
-				ascategory:$("#acategory").val(),
-				astartyear:$("#astartyear").val(),
-				asendyear:$("#astartyear").val()
-			},function(data){
-				alert(data);
-			});*/
+	$("#reports_hod_report").click(function(){
+		$("#content").load("generatehod.php?seed="+Math.random());
 	});
+
+	/*$("#report_staff").click(function(){
+		$("#content").load("staffreport.html?seed="+Math.random());
+	});*/
+
+	$("#report_staff").click(function(){
+		$("#content").load("staffreport2.html?seed="+Math.random());
+	});
+	
+	$(".logout").click(function(){
+		window.location.href="http://localhost/test/index.html?seed="+Math.random();
+	});
+
+	$("#settings_menu").hide();
+	
+	$("#settings_submenu").hover(function(){
+		$("#settings_menu").show();
+		$("#settings_username").css({"color":"#1E90FF"});
+		$(this).animate({height:"130px"});	
+	},function(){
+		$("#settings_menu").hide();
+		$("#settings_username").css({"color":"white"});
+		$(this).animate({height:"40px"});
+	});
+	
+
 });
 

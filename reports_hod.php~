@@ -1,0 +1,6 @@
+<ul class="nav nav-tabs menu">
+  <li id="hodreport"><a href="#">HOD</a></li>
+  <li id="staffreport"><a href="#">Staff</a></li>
+</ul>
+
+

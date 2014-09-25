@@ -1,0 +1,17 @@
+<?php
+	include_once "Database.php";
+	$str="select empname from mainproject.employee where deptno in(select deptno from mainproject.department where deptname='".$_POST['dept']."')";
+	$db=new Database();
+	$html="<option>Staff</option>";
+	$res=$db->selectQuery($str);
+	if($res!="avail")
+	{
+		for($i=0;$i<count($res);$i++)
+			$html=$html."<option>".$res[$i]."</option>";
+		echo $html;
+	}
+	else
+	{
+		echo "No results found";
+	}
+?>

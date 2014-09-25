@@ -1,0 +1,39 @@
+					$("#aplace").focus(function(){
+					if($("#adate").val()=="")
+					{
+						alert("Enter From date");
+					}
+					if(($("#tdate").val()=="") && ($("#adate").val()!=""))
+					{
+						$("#tdate").val($("#adate").val());
+					}
+					fromdate=new Date($("#adate").val());
+					todate=new Date($("#tdate").val());
+					if(todate<fromdate)
+					{
+						alert("To date should be greater than from date");
+					}
+				});					
+
+					$("#attendededit").click(function(data){
+						fromdate=new Date($("#adate").val());
+						todate=new Date($("#tdate").val());
+						var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+						$.post("savechanges.php?seed="+Math.random(),{	
+							ename:$("#aename").val(),
+							adate:$("#adate").val(),
+							tdate:$("#tdate").val(),
+							place:$("#aplace").val(),
+							type:$("input[name='atype']:checked").val(),
+							category:$("#acategory").val(),
+							startyear:$("#astartyear").val(),
+							endyear:$("#aendyear").val(),
+							days:days+1,
+							aid:eid
+						},function(data)
+						{	
+							alert(data);
+							$("#edit-attended" ).dialog( "close" );
+							operations();
+						});
+					});

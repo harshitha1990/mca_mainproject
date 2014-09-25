@@ -1,0 +1,22 @@
+<script>
+function deleteElement(elementId) {
+		$.post("deleterecord.php?seed="+Math.random(),{
+			id:elementId
+			},
+			function(data){
+				alert(data);
+			}
+		);
+	}
+	$(function(){
+		$.post("hodreportfile.php?seed="+Math.random(),function(data){
+			$("#content").html(data);
+			$(".deletebutton").click(function(){
+				var id=$(this).attr("id");
+				deleteElement(id);
+				$(this).parent().slideUp();
+			});
+		});
+		
+	});
+</script>

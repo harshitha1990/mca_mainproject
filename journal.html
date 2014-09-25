@@ -2,7 +2,9 @@
 	<label>Title of the paper</label>
 	<input type="text" id="jtitle"/>
 	<label>Journal</label>
-	<input type="text" id="jname"/><br/><br/>
+	<input type="text" id="jname"/>
+	<label>Date</label>
+	<input type="date" id="jdate"/><br/><br/>
 	<label>Impact Factor</label>&nbsp;&nbsp;
 	<select id="impactfactor">
 		<option>0.0</option>
@@ -10,26 +12,80 @@
 		<option>1.0</option>
 		<option>1.5</option>
 		<option>2.0</option>
+		<option>2.5</option>
+		<option>3.0</option>
+		<option>3.5</option>
+		<option>4.0</option>
+		<option>4.5</option>
+		<option>5.0</option>
 	</select>
-	<br/><br/>
+	<br/><br/>`
 	<label>Academic Year</label>&nbsp;&nbsp;
 	<input type="text" class="smalltext" value="2013" style="width:40px" id="jstartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="jendyear"/><br/><br/>
 	<button type="button" class="btn btn-primary btn-lg" id="journaladd" class="add">Add</button>
 </form>
 <script>
 	$(function(){
-		$("#journaladd").click(function(){
-			$.post("insert.php?seed="+Math.random(),{
-				method:'journal',
-				jsimpactfactor:$("#impactfactor").val(),
-				jstitle:$("#jtitle").val(),
-				jseventname:$("#jname").val(),
-				jstartyear:$("#jstartyear").val(),
-				jsendyear:$("#jendyear").val()
-			},function(data){
-				alert(data);
-			});
+		$("#jdate").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			maxDate:0
 		});
+		$( "#jdate").datepicker( "option", "dateFormat","yy-mm-dd");
+		$("#journaladd").click(function(){
+		if(($("#jtitle").val()=="")&&($("#jdate").val()=="")&&($("#jname").val()=="")&&($("#impactfactor").val()=="0.0"))
+		{
+			alert("All Fields are mandatory");
+		}
+		else
+		{
+			if(($("#jtitle").val()=="")||($("#jdate").val()=="")||($("#jname").val()=="")||($("#impactfactor").val()=="0.0"))
+			{
+				var error_msg="Please Enter";
+				if($("#jtitle").val()=="")
+				{
+					error_msg=error_msg+" Title";
+				}
+				if($("#jdate").val()=="")
+				{
+					error_msg=error_msg+" Date";
+				}
+				if($("#jname").val()=="")
+				{
+					error_msg=error_msg+" Name";
+				}
+				if($("#impactfactor").val()=="0.0")
+				{
+					error_msg=error_msg+" ImpactFactor";
+				}
+				alert(error_msg);
+			}
+			else
+			{
+				$.post("insert.php?seed="+Math.random(),{
+					method:'journal',
+					jsimpactfactor:$("#impactfactor").val(),
+					jstitle:$("#jtitle").val(),
+					jsdate:$("#jdate").val(),
+					jseventname:$("#jname").val(),
+					jstartyear:$("#jstartyear").val(),
+					jsendyear:$("#jendyear").val()
+				},function(data){
+					alert(data);
+					$('input[type="text"]').each(function(){
+      					$(this).val("");  
+  					});
+					$('input[type="date"]').each(function(){
+      						$(this).val("");  
+  					});
+					$("#jstartyear").val("2013");
+					$("#jendyear").val("2014");
+					$("#impactfactor").val("0.0");
+					
+				});
+			}
+		}
 	});
+});
 </script>
 

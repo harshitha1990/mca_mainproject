@@ -1,0 +1,6 @@
+<?php
+
+$con = mysql_connect('127.0.0.1','root','','mainproject') or die('error connecting');
+print_r($con);
+
+?>

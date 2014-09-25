@@ -1,9 +1,10 @@
-
-<form>
+<form> 
 	<label>Event Name</label>
 	<input type="text" id="aename"/>		
-	<label>Date</label>
-	<input type="date" id="adate"/>
+	<label>From Date</label>
+	<input type="date" id="adate" class="datejs"/>
+	<label>To Date</label>
+	<input type="date" id="tdate" class="datejs"/>
 	<label>Place</label>
 	<input type="text" id="aplace"/><br/><br/>
 	<label>Type</label>&nbsp;&nbsp;
@@ -19,25 +20,102 @@
 	</select>
 	<br/><br/>
 	<label>Academic Year</label>&nbsp;&nbsp;
-	<input type="text" class="smalltext" value="2013" style="width:40px" id="astartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="aendyear"><br/><br/>
+	<input type="text" class="smalltext" value="2013" style="width:40px" id="astartyear"/>&nbsp;-&nbsp;<input type="text" class="smalltext" value="2014" style="width:40px" id="aendyear"/><br/><br/>
 	<button type="button" class="btn btn-primary btn-lg" id="attendedadd" class="add">Add</button>
 </form>
 <script>
 	$(function(){
+		var fromdate;
+		var todate;
+		$(".datejs" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			maxDate:0
+		});
+		$( ".datejs" ).datepicker( "option", "dateFormat","yy-mm-dd");
+		$("#aplace").focus(function(){
+			if($("#adate").val()=="")
+			{
+				alert("Enter From date");
+			}
+			if(($("#tdate").val()=="") && ($("#adate").val()!=""))
+			{
+				$("#tdate").val($("#adate").val());
+			}
+			fromdate=new Date($("#adate").val());
+			todate=new Date($("#tdate").val());
+			if(todate<fromdate)
+			{
+				alert("To date should be greater than from date");
+			}
+		});
 		$("#attendedadd").click(function(){
+			if(($("#aename").val()=="")&&($("#adate").val()=="")&&($("#aplace").val()=="")&&($("input[name='atype']").is(":checked")!=true)){
+		alert("All Fields are required");
+	}
+	else
+	{
+		if(($("#aename").val()=="")||($("#adate").val()=="")||($("#aplace").val()=="")||($("input[name='atype']").is(":checked")!=true))
+		{
+			var error_msg="Please enter";
+			if($("#aename").val()=="")
+			{
+				error_msg=error_msg+" Name";
+			}
+			if($("#adate").val()=="")
+			{
+				error_msg=error_msg+" Date";
+			}
+			if($("#aplace").val()=="")
+			{
+				error_msg=error_msg+" Place";
+			}
+			if($("input[name='atype']").is(":checked")!=true)
+			{
+				error_msg=error_msg+" Type";
+			}
+			alert(error_msg);
+		}
+		else
+		{
+			if($("#tdate").val()=="")
+			{
+				$("#tdate").val($("#adate").val());
+			}
+			
+			var days = Math.floor((todate.getTime() - fromdate.getTime()) / 86400000);
+
+
 			$.post("insert.php?seed="+Math.random(),{
 				method:'attended',
 				aseventname:$("#aename").val(),
 				asdate:$("#adate").val(),
+				atdate:$("#tdate").val(),
 				asplace:$("#aplace").val(),
 				astype:$("input[name='atype']:checked").val(),
 				ascategory:$("#acategory").val(),
 				astartyear:$("#astartyear").val(),
-				asendyear:$("#aendyear").val()
+				asendyear:$("#aendyear").val(),
+				days:days+1
 			},function(data){
 				alert(data);
+				$('input[type="text"]').each(function(){
+      					$(this).val("");  
+  				});
+				$('input[type="date"]').each(function(){
+      					$(this).val("");  
+  				});
+ 				$("input:radio").removeAttr("checked");
+				$("#astartyear").val("2013");
+				$("#aendyear").val("2014");
+				$("#acategory").val("Seminar");
+	
 			});
+		}
+	}
+
 		});
-	});
+	
+});
 </script>
 

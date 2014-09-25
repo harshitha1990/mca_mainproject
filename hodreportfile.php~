@@ -1,0 +1,12 @@
+<?php
+	session_start();
+	include_once "Database.php";
+	$db=new Database();
+	echo "<b>Journal</b>";
+	$str1="select title,jname,impactfactor,jid from mainproject.journal where username='".$_SESSION['username']."'";
+	$res1=$db->journal_individual($str1);
+	echo $res1;
+	$str="select eventname,title,place,adate,type,category,attended_presented,aid from mainproject.activities where username='".$_SESSION['username']."'  order by adate desc";
+	$res=$db->report_individual($str);
+	echo $res;
+?>

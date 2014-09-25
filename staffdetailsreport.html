@@ -1,0 +1,58 @@
+
+<form>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<select id="staffinfo">
+		<option>Staff</option>
+	</select>
+	<select id="principal_category">
+			<option>Category</option>
+			<option>All</option>
+			<option>Seminar</option>
+			<option>Workshop</option>
+	</select>
+	<label>From</label>
+	<input type="text" id="durationfrom" class="principal_text" style="width:100px;" placeholder="YYYY-MM-DD" />
+	<label>To</label>
+	<input type="text" id="durationto" class="principal_text" style="width:100px;" placeholder="YYYY-MM-DD"/><br/><br/>
+	<button type="button" id="principalreport">View Report</button>
+	<div id="reportContainer">
+	</div>
+</form>
+<div id="content_report">
+</div>
+<script>
+	$(function(){
+		$.post("staffdetails.php?seed="+Math.random(),function(data){
+			$("#staffinfo").html(data);
+		});
+		
+		$("#principalreport").click(function(){
+			if($("#principal_category").val()=="All")
+			{
+				$.post("staff_report_generator.php?seed="+Math.random(),{
+				staff:$("#staffinfo").val(),
+				category:"all",
+				from:$("#durationfrom").val(),
+				to:$("#durationto").val()
+				},function(data){
+					$("#reportContainer").html(data);
+				});
+			}
+			else
+			{
+				$.post("staff_report_generator.php?seed="+Math.random(),{
+				staff:$("#staffinfo").val(),
+				category:$("#principal_category").val(),
+				from:$("#durationfrom").val(),
+				to:$("#durationto").val()
+				},function(data){
+					$("#reportContainer").html(data);
+				});
+			}
+			
+		});
+		
+	});
+</script>
+
+
